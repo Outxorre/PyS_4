@@ -1,129 +1,115 @@
-class Yaitso:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    def greeting(self):
-        print(f"Hello, Im {self.name}")
-
-class Auto:
-    def __init__(self, brand, model, year):
-        self.brand = brand
-        self.model = model
-        self.year = year
-        self.passengers = []
-
-    def add_passenger(self, human):
-        self.passengers.append(human)
-
-    def show_passengers(self):
-        if self.passengers:
-            for i in self.passengers:
-                print(f"Passenger: {i.name}")
-        else:
-            print("Passenger List is empty")
-
-mercebowles = Auto("Mosrodes","Balbes99", "2088")
-human1 = Yaitso("Nurbekzhan", 4)
-human2 = Yaitso("Balbes32", 9)
-
-mercebowles.add_passenger(human1)
-mercebowles.add_passenger(human2)
-
-mercebowles.show_passengers()
-
-
-
-
-#Задание 1
-
-
-class Book:
-    def __init__(self, title, author):
-        self.title = title
-        self.author = author
-
-    def bookInfo(self):
-        print(f"Название книги: {self.title}, Автор: {self.author}")
-
-book1 = Book("Bulba", "Anchovy")
-book2 = Book("Bulba2", "Anchovy2")
-book1.bookInfo()
-
-#Задание 2
-class Reader:
+#Parent (Base class) - класс, от которого наследуются
+import math
+class Parent:
     def __init__(self,name):
         self.name = name
-        self.borrowedBooks = []
 
-    def borrowBook(self, book):
-        self.borrowedBooks.append(book)
+    def greet(self):
+        print(f"Hello, my name is {self.name}")
 
-    def returnBook(self, book):
-        for book in self.borrowedBooks:
-            self.borrowedBooks.remove(book)
-            print(f"{book.title} Успешно возвращена")
+class Child(Parent):
+    def __init__(self,name,age):
+        self.age = age
+        super().__init__(name)
 
-        else:
-            print("Не найдено в массиве")
-        # for i in self.borrowedBooks:
-        #     self.borrowedBooks.remove(i)
+    def introduce(self):
+        print(f"Hello, im a child, my name is {self.name}")
 
-    def showBooks(self):
-        if self.borrowedBooks:
-            for i in self.borrowedBooks:
-                print(f"Book: {i.title}")
-        else:
-            print("Books List is empty")
+    def greet(self):
+        super().greet()
+        print("Wsp lil bro ")
 
-reader1 = Reader("Nuradil")
-reader1.borrowBook(book1)
-reader1.borrowBook(book2)
+parent = Parent("Voblamobla")
+child = Child("Jayson", 10)
 
-reader1.showBooks()
+parent.greet()
+child.greet()
 
-print("")
+class Employee:
+    def __init__(self,name,position):
+        self.name = name
+        self.position = position
+
+    def show_info(self):
+        print(f"Name:{self.name}, position: {self.position}")
+
+class Developer(Employee):
+    def __init__(self,name,position,prog_lang = []):
+        super().__init__(name,position)
+        self.prog_lang = prog_lang
+
+    def show_info(self):
+        super().show_info()
+        print(f"Programming languages: {self.prog_lang}")
+
+iosDev = Developer("Nuradil", "Middle", ["swift", "UIKit", "SwiftUI", "Objective-C"])
+
+iosDev.show_info()
+
+class Shape:
+    def area(self):
+        return "Площадь отсутствует"
+
+class Rectangle(Shape):
+    def __init__(self, height, width):
+        super().__init__()
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * (self.radius ** 2)
+
+rectangle = Rectangle(2 ,4)
+print(rectangle.area())
+
+circle = Circle(5)
+print(circle.area())
+
+shape = Shape
+print(shape)
+
+class Character:
+    def __init__(self, name, health, damage):
+        self.name=name
+        self.health=health
+        self.damage=damage
+
+    def attack(self):
+        print(f"Персонаж {self.name} производит атаку и наносит противнику {self.damage} урона!")
+
+    def take_damage(self):
+        self.health -= self.damage
+        print(f"HP Персонажа понизилось на {self.damage}")
+        if self.health < 0:
+            print("Персонаж погиб!")
+
+class Soldier(Character):
+    def __init__(self, name, health, damage, weapon):
+        super().__init__(name,health,damage)
+        self.weapon = weapon
+
+    def attack(self):
+        print(f"Персонаж {self.name} производит атаку с помощью {self.weapon} и наносит противнику {self.damage + 8} урона!")
 
 
-reader1.returnBook(book1)
+class Sniper(Character):
+    def __init__(self, name, health, damage, range):
+        super().__init__(name, health, damage)
+        self.range = range
 
-print("")
+    def attack(self):
+        print(
+            f"Персонаж {self.name} производит атаку с дистанции {self.range} метров, и наносит противнику {self.damage - 5} урона!")
 
-reader1.showBooks()
+char1 = Character("Dirlahan", 4, 3)
+char1.attack()
+char2 = Sniper("Dirlahan", 4, 6, 15)
+char2.attack()
 
-#Задание 3
-class Library:
-    def __init__(self, books = [], readers = []):
-        self.books = books
-        self.readers = readers
-
-    def add_book(self, book):
-        self.books.append(book)
-
-    def add_reader(self, reader):
-        self.readers.append(reader)
-
-    def lend_book(self, book, reader):
-        if book in self.books:
-            self.books.remove(book)
-            reader.returnBook(book)
-
-        else:
-            print(f"book {book.title} not found")
-
-    def show_books(self):
-        if self.books:
-            print("Books:")
-            for book in self.books:
-                print(f"{book.title}")
-            else:
-                print("Not found")
-
-    def show_readers(self):
-        if self.readers:
-            print("Readers:")
-            for reader in self.readers:
-                print(f"{reader.title}")
-            else:
-                print("Not found")
-п
